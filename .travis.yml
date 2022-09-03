@@ -1,0 +1,23 @@
+sudo: required
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - docker build -t phcmas/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true phcmas/react-test npm test
+
+after_success:
+  - docker build -t phcmas/multi-client ./client
+  - docker build -t phcmas/multi-nginx ./nginx
+  - docker build -t phcmas/multi-server ./server
+  - docker build -t phcmas/multi-worker ./worker
+  # Login to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push phcmas/multi-client
+  - docker push phcmas/multi-nginx
+  - docker push phcmas/multi-server
+  - docker push phcmas/multi-worker
