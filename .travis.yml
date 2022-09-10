@@ -21,3 +21,15 @@ after_success:
   - docker push phcmas/multi-nginx
   - docker push phcmas/multi-server
   - docker push phcmas/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: ap-northeast-2
+  app: multi-docker
+  env: Multidocker-env
+  bucket_name: elasticbeanstalk-ap-northeast-2-100913502715
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
