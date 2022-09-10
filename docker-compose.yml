@@ -2,7 +2,7 @@ version: "3"
 services:
   client:
     image: "phcmas/multi-client"
-    new_limit: 128m
+    mem_limit: 128m
     hostname: client
   server:
     image: "phcmas/multi-server"
@@ -18,14 +18,14 @@ services:
       - PGPORT=$PGPORT
   worker:
     image: "phcmas/multi-worker"
-    new_limit: 128m
+    mem_limit: 128m
     hostname: worker
     environment:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
   nginx:
     image: "phcmas/multi-nginx"
-    new_limit: 128m
+    mem_limit: 128m
     hostname: nginx
     ports:
       - "80:80"
